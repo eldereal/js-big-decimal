@@ -1,4 +1,4 @@
-var bigDecimal;
+var bigDecimal;bigDecimal =
 /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
@@ -150,21 +150,27 @@ var bigDecimal = /** @class */ (function () {
         if (/e/i.test(number)) {
             var _a = number.split(/[eE]/), mantisa = _a[0], exponent = _a[1];
             mantisa = add_1.trim(mantisa);
-            var offset = 0;
+            var sign = '';
+            if (mantisa[0] == '-') {
+                sign = '-';
+                mantisa = mantisa.substring(1);
+            }
             if (mantisa.indexOf('.') >= 0) {
                 exponent = parseInt(exponent) + mantisa.indexOf('.');
                 mantisa = mantisa.replace('.', '');
-                offset = 1;
+            }
+            else {
+                exponent = parseInt(exponent) + mantisa.length;
             }
             if (mantisa.length < exponent) {
-                number = mantisa + (new Array(exponent - mantisa.length + 1)).join('0');
+                number = sign + mantisa + (new Array(exponent - mantisa.length + 1)).join('0');
             }
             else if (mantisa.length >= exponent && exponent > 0) {
-                number = add_1.trim(mantisa.substring(0, exponent)) +
+                number = sign + add_1.trim(mantisa.substring(0, exponent)) +
                     ((mantisa.length > exponent) ? ('.' + mantisa.substring(exponent)) : '');
             }
             else {
-                number = '0.' + (new Array(-exponent + offset)).join('0') + mantisa;
+                number = sign + '0.' + (new Array(-exponent + 1)).join('0') + mantisa;
             }
         }
         return number;
@@ -801,9 +807,8 @@ exports.negate = negate;
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
-/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
-/******/ 		if (cachedModule !== undefined) {
-/******/ 			return cachedModule.exports;
+/******/ 		if(__webpack_module_cache__[moduleId]) {
+/******/ 			return __webpack_module_cache__[moduleId].exports;
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {
@@ -820,12 +825,9 @@ exports.negate = negate;
 /******/ 	}
 /******/ 	
 /************************************************************************/
-/******/ 	
+/******/ 	// module exports must be returned from runtime so entry inlining is disabled
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	var __webpack_exports__ = __webpack_require__(423);
-/******/ 	bigDecimal = __webpack_exports__;
-/******/ 	
+/******/ 	return __webpack_require__(423);
 /******/ })()
 ;
